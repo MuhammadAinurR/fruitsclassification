@@ -36,11 +36,17 @@
 		    .expandDims()
 		    .toFloat()
 		    .reverse(-1); // RGB -> BGR
-        console.log('preprocessing completed, starting predict')
-        var startTime = performance.now()
+        console.log('preprocessing completed, starting warming up')
+
+        // Warmup the model before using real data.S
+        const warmupResult = model.predict(tf.zeros([1, 100, 100, 3]));
+        warmupResult.dataSync(); // we don't care about the result
+        warmupResult.dispose();
+        console.log('starting predict now');
+        var startTime = performance.now();
 	      let predictions = await model.predict(tensor).data();
-        var endTime = performance.now()
-        console.log('predict completed, starting make result')
+        var endTime = performance.now();
+        console.log('predict completed, starting make result');
         let top5 = Array.from(predictions)
 		    .map(function (p, i) { // this is Array.map
 			    return {
