@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tensorflow JS</title>
+  </head>
+  <body>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@latest"> </script>
+    <script src="script.js"></script>
+
+
+    <img id="img" src="datatest/granadilla.jpg"></img>
+
+    <div class="col-6">
+			<h2 class="ml-3">Predictions</h2>
+			<ol id="prediction-list"></ol>
+      <p id="p">Waktu yang dibutuhkan adalah : </p>
+		</div>
+
+    <script>
+      const img = document.getElementById('img');
+      var paragraph = document.getElementById("p");
+      
+
+      async function run(){
+        const model = await tf.loadLayersModel('/model/model.json');
+        model.summary();
+        let tensor = tf.browser.fromPixels(img, 3)
+		    .resizeNearestNeighbor([100, 100]) // change the image size
+		    .expandDims()
+		    .toFloat()
+		    .reverse(-1); // RGB -> BGR
+        console.log('prediction start')
+        var startTime = performance.now()
+	      let predictions = await model.predict(tensor).data();
+        var endTime = performance.now()
+        console.log('prediction complete')
+	      console.log(predictions);
+        console.log('finished')
+        let top5 = Array.from(predictions)
+		    .map(function (p, i) { // this is Array.map
+			    return {
+				    probability: p,
+				    className: TARGET_CLASSES[i] // we are selecting the value from the obj
+			    };
+		    }).sort(function (a, b) {
+			    return b.probability - a.probability;
+		    }).slice(0, 5);
+
+	      $("#prediction-list").empty();
+	      top5.forEach(function (p) {
+		      $("#prediction-list").append(`<li>${p.className}: ${p.probability.toFixed(3)*100}</li>`);
+		    });
+        var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik' );
+        paragraph.appendChild(text);
+      }
+      run();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
