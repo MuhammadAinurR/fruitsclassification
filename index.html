@@ -27,7 +27,7 @@
       
 
       async function run(){
-        const model = await tf.loadLayersModel('muhammadainurr.github.io/fruitsclassification/model/model.json');
+        const model = await tf.loadLayersModel('model/model.json');
         model.summary();
         let tensor = tf.browser.fromPixels(img, 3)
 		    .resizeNearestNeighbor([100, 100]) // change the image size
