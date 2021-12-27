@@ -22,19 +22,25 @@
 		</div>
 
     <script>
+      console.log('load image start')
       const img = document.getElementById('img');
+      console.log('image loaded')
       var paragraph = document.getElementById("p");
 
       async function run(){
+        console.log('function start')
         const model = await tf.loadLayersModel('model/model.json');
+        console.log('model loaded, starting pre processing image')
         let tensor = tf.browser.fromPixels(img, 3)
 		    .resizeNearestNeighbor([100, 100]) // change the image size
 		    .expandDims()
 		    .toFloat()
 		    .reverse(-1); // RGB -> BGR
+        console.log('preprocessing completed, starting predict')
         var startTime = performance.now()
 	      let predictions = await model.predict(tensor).data();
         var endTime = performance.now()
+        console.log('predict completed, starting make result')
         let top5 = Array.from(predictions)
 		    .map(function (p, i) { // this is Array.map
 			    return {
