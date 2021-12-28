@@ -36,6 +36,7 @@
 
       async function run(){
         console.log('function start')
+        console.log('try to load the model')
         const model = await tf.loadLayersModel('model/model.json');
         console.log('model loaded, starting pre processing image')
         let tensor = tf.browser.fromPixels(img, 3)
