@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/loader.css" />
+    <link rel="stylesheet" href="coba.css" />
+    <script src="js/package/tf.min.js"></script>
+    <script src="js/package/jquery-3.6.0.slim.js"></script>
+    <script src="js/package/bootstrap.bundle.min.js"></script>
+    <script src="js/input.js"></script>
+    <title>Tensorflow JS</title>
+  </head>
+  <body>
+    <div class="d-flex align-items-start">
+      <div class="apa shadow bg-light nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Classify</button>
+        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
+        <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
+        <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+      </div>
+
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+          <div>
+            <!-- loading screen -->
+            <div class="loader">
+              <img src="content/loading.gif" alt="Loading Image" />
+              <div class="card shadow" style="width: 18rem">
+                <div class="card-body">
+                  <h5 class="card-title">Harap tunggu</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Sedang Load Model</h6>
+                  <p class="card-text">Pemanasan model sebelum digunakan</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="container-fluid">
+              <!-- judul -->
+              <div class="col-12 d-flex justify-content-center my-3">
+                <div class="row">
+                  <h1><span class="apa shadow-sm badge bg-secondary">Fruits Classification with CNN Models</span></h1>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div class="col-lg-4 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">Input Image</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="d-flex justify-content-center">
+                        <img class="col-3 img-fluid img-thumbnail rounded" id="displayImage" src="react.png" alt="your image" />
+                      </div>
+                      <div class="mt-3">
+                        <select class="form-select" id="pilihanGambar">
+                          <option selected value="react.png">Select Local Image</option>
+                          <option value="content/datatest/apple braeburn.jpg">Apple Braeburn</option>
+                          <option value="content/datatest/banana.jpg">Banana</option>
+                          <option value="content/datatest/corn.jpg">Corn</option>
+                          <option value="content/datatest/granadilla.jpg">Granadilla</option>
+                        </select>
+                      </div>
+                      <div class="col-12 mt-3 input-group d-flex justify-content-center">
+                        <input type="file" onchange="readURL(this);" class="form-control" />
+                        <button class="btn btn-outline-secondary" onchange="readURL1();" type="button" id="myBtn">Predict</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">Prediction Result</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                          <img class="col-3 img-fluid img-thumbnail rounded" id="img" src="content/datatest/corn.jpg" />
+                        </div>
+                        <div class="mt-3">
+                          <h2 class="ms-3">Most Probable Prediction</h2>
+                          <div class="container d-flex justify-content-between row">
+                            <div class="col-12 col-md-6 shadow-sm">
+                              <ol id="prediction-list"></ol>
+                            </div>
+                            <div class="col-12 col-md-6 text-end">
+                              <p class="text-end bg-secondary rounded text-wrap badge">Prediction Time</p>
+                              <p class="text-end bg-secondary rounded text-wrap badge" id="waktu">Prediction Time</p>
+                              <div class="position-absolute top-100 start-100 translate-middle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          <div>
+            <p>Home</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+          <div>
+            <p>Home</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+          <div>
+            <p>Home</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- class label -->
+    <script src="js/label.js"></script>
+    <!-- img processing, load model, prediksi, dan output -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
