@@ -1,4 +1,7 @@
 function readURL(input) {
+  console.log('------------------------------------------');
+  console.log(input);
+  console.log('------------------------------------------');
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
@@ -9,6 +12,9 @@ function readURL(input) {
   }
 }
 
-function readURL1() {
-  console.log('---------berhasil-------');
-}
+$(document).ready(function () {
+  $('#pilihanGambar').change(function () {
+    $('#displayImage').attr('src', $(this).val());
+    $('#img').attr('src', $(this).val());
+  });
+});
