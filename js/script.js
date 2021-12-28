@@ -48,10 +48,10 @@ async function run() {
     $('#prediction-list').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
-
   paragraph.removeChild(paragraph.childNodes[0]);
   paragraph.appendChild(text);
 }
+
 run();
 
 document.getElementById('myBtn').addEventListener('click', run);
