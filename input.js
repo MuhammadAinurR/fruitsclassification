@@ -4,8 +4,11 @@ function readURL(input) {
     reader.onload = function (e) {
       $('#displayImage').attr('src', e.target.result);
       $('#img').attr('src', e.target.result);
-      $('#img2').attr('src', e.target.result);
     };
     reader.readAsDataURL(input.files[0]);
   }
+}
+
+function readURL1() {
+  console.log('---------berhasil-------');
 }
