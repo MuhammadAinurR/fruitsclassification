@@ -3,8 +3,7 @@ var img = document.getElementById('img');
 
 console.log(img);
 console.log('image loaded');
-var paragraph = document.getElementById('p');
-
+var paragraph = document.getElementById('waktu');
 async function run() {
   console.log('function start');
   console.log('try to load the model');
@@ -49,6 +48,8 @@ async function run() {
     $('#prediction-list').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
+
+  paragraph.removeChild(paragraph.childNodes[0]);
   paragraph.appendChild(text);
 }
 run();
