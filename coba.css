@@ -7,5 +7,41 @@
   opacity: 0.8;
 }
 
-.apa {
+.menuBtn {
+  position: fixed;
+  left: 0%;
+  top: 48%;
+  transform: rotate(90deg);
+  opacity: 1;
+  z-index: +2;
+}
+
+.menuBtn.open {
+  position: fixed;
+  opacity: 0;
+}
+
+.closeBtn {
+  position: fixed;
+  opacity: 0;
+}
+
+.closeBtn.open {
+  position: fixed;
+  opacity: 0.8;
+  position: fixed;
+  left: 6%;
+  top: 48%;
+  transform: rotate(90deg);
+  z-index: +2;
+}
+
+.menu {
+  position: fixed;
+  opacity: 0;
+}
+
+.menu.open {
+  position: fixed;
+  opacity: 0.8;
 }
