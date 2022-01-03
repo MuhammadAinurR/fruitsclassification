@@ -11,23 +11,20 @@ var paragraphInceptionV3 = document.getElementById('waktuInceptionV3');
 async function run2() {
   var element = document.getElementById('loadingScreen');
   element.classList.remove('hidden');
+
   console.log('function2 start');
-  console.log('try to load the model');
-  const modelvgg16 = await tf.loadLayersModel('model/vgg16/model.json');
-  model = modelvgg16;
-  console.log('VGG model loaded, starting pre processing image');
+
   let tensor = tf.browser
     .fromPixels(img2, 3)
     .resizeNearestNeighbor([100, 100]) // change the image size
     .expandDims()
     .toFloat()
     .reverse(-1); // RGB -> BGR
-  console.log('preprocessing completed, starting warming up');
+  console.log('preprocessing completed');
 
-  // Warmup the model before using real data.S
-  const warmupResult = model.predict(tf.zeros([1, 100, 100, 3]));
-  warmupResult.dataSync(); // we don't care about the result
-  warmupResult.dispose();
+  console.log('try to load the model');
+  await vgg16.then((value) => (model = value));
+  console.log('VGG model loaded, starting pre processing image');
 
   console.log('starting VGG predict now');
   var startTime = performance.now();
@@ -54,18 +51,13 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphVGG.removeChild(paragraphVGG.childNodes[0]);
   paragraphVGG.appendChild(text);
-  tf.dispose(model);
   tf.dispose(predictions);
 
   // model resnet
   console.log('load Resnet50 model');
-  const modelresnet50 = await tf.loadLayersModel('model/resnet50/model.json');
-  model = modelresnet50;
+  await resnet50.then((value) => (model = value));
   console.log('Resnet50 model loaded');
-  // Warmup the model before using real data.S
-  const warmupResult1 = model.predict(tf.zeros([1, 100, 100, 3]));
-  warmupResult1.dataSync(); // we don't care about the result
-  warmupResult1.dispose();
+
   console.log('starting Resnet50 predict now');
   var startTime = performance.now();
   let predictions1 = await model.predict(tensor).data();
@@ -91,18 +83,13 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphResnet50.removeChild(paragraphResnet50.childNodes[0]);
   paragraphResnet50.appendChild(text);
-  tf.dispose(model);
   tf.dispose(predictions1);
 
   // model resnet
   console.log('load MobileNetV2 Model');
-  const modelmobilenetv2 = await tf.loadLayersModel('model/mobilenetv2/model.json');
-  model = modelmobilenetv2;
+  await mobilenetv2.then((value) => (model = value));
   console.log('MobileNetV2 loaded');
-  // Warmup the model before using real data.S
-  const warmupResult2 = model.predict(tf.zeros([1, 100, 100, 3]));
-  warmupResult2.dataSync(); // we don't care about the result
-  warmupResult2.dispose();
+
   console.log('starting MobileNetV2predict now');
   var startTime = performance.now();
   let predictions2 = await model.predict(tensor).data();
@@ -128,18 +115,13 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphMobileNetV2.removeChild(paragraphMobileNetV2.childNodes[0]);
   paragraphMobileNetV2.appendChild(text);
-  tf.dispose(model);
   tf.dispose(predictions2);
 
   // model inceptionv3
   console.log('load InceptionV3 Model');
-  const modelinceptionv3 = await tf.loadLayersModel('model/inceptionv3/model.json');
-  model = modelinceptionv3;
+  await inceptionv3.then((value) => (model = value));
   console.log('InceptionV3 model loaded');
-  // Warmup the model before using real data.S
-  const warmupResult3 = model.predict(tf.zeros([1, 100, 100, 3]));
-  warmupResult3.dataSync(); // we don't care about the result
-  warmupResult3.dispose();
+
   console.log('starting InceptionV3 predict now');
   var startTime = performance.now();
   let predictions3 = await model.predict(tensor).data();
@@ -167,7 +149,6 @@ async function run2() {
   paragraphInceptionV3.appendChild(text);
 
   element.classList.add('hidden');
-  tf.dispose(model);
   tf.dispose(predictions3);
 }
 
