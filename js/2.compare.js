@@ -1,6 +1,5 @@
 console.log('load image2 start');
 var img2 = document.getElementById('img2');
-
 console.log(img2);
 console.log('image loaded');
 var paragraphVGG = document.getElementById('waktuVGG');
@@ -9,9 +8,6 @@ var paragraphResnet50 = document.getElementById('waktuResnet50');
 var paragraphInceptionV3 = document.getElementById('waktuInceptionV3');
 
 async function run2() {
-  var element = document.getElementById('loadingScreen');
-  element.classList.remove('hidden');
-
   console.log('function2 start');
 
   let tensor = tf.browser
@@ -89,7 +85,6 @@ async function run2() {
   console.log('load MobileNetV2 Model');
   await mobilenetv2.then((value) => (model = value));
   console.log('MobileNetV2 loaded');
-
   console.log('starting MobileNetV2predict now');
   var startTime = performance.now();
   let predictions2 = await model.predict(tensor).data();
@@ -148,7 +143,6 @@ async function run2() {
   paragraphInceptionV3.removeChild(paragraphInceptionV3.childNodes[0]);
   paragraphInceptionV3.appendChild(text);
 
-  element.classList.add('hidden');
   tf.dispose(predictions3);
 }
 
