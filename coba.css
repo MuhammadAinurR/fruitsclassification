@@ -12,7 +12,7 @@
   left: 0%;
   top: 48%;
   transform: rotate(90deg);
-  opacity: 1;
+  opacity: 0.7;
   z-index: +2;
 }
 
@@ -28,7 +28,7 @@
 
 .closeBtn.open {
   position: fixed;
-  opacity: 0.8;
+  opacity: 1;
   position: fixed;
   left: 6rem;
   top: 48%;
@@ -43,5 +43,5 @@
 
 .menu.open {
   position: fixed;
-  opacity: 0.8;
+  opacity: 1;
 }

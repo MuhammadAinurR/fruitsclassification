@@ -6,13 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/loader.css" />
+    <link rel="stylesheet" href="coba.css" />
     <script src="js/package/tf.min.js"></script>
     <script src="js/package/jquery-3.6.0.slim.js"></script>
     <script src="js/package/bootstrap.bundle.min.js"></script>
     <script src="js/input.js"></script>
-    <title>Tensorflow JS</title>
+    <title>Tensorflow JS1</title>
   </head>
   <body>
+    <!-- navbar -->
+
+    <!-- side button -->
+    <button class="btn btn-primary menuBtn">Menu</button>
+    <button class="btn btn-primary closeBtn">Close</button>
+    <div class="menu shadow bg-light nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Classify</button>
+      <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Compare</button>
+      <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Datasets</button>
+      <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">App Flow</button>
+    </div>
     <!-- loading screen -->
     <div class="loader">
       <img src="content/loading.gif" alt="Loading Image" />
@@ -92,6 +104,8 @@
       </div>
     </div>
 
+    <!-- overlay for button -->
+    <script src="js/overlay.js"></script>
     <!-- class label -->
     <script src="js/label.js"></script>
     <!-- img processing, load model, prediksi, dan output -->
