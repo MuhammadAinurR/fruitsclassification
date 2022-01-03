@@ -1,4 +1,4 @@
-console.log('load image start');
+console.log('load image2 start');
 var img2 = document.getElementById('img2');
 
 console.log(img2);
@@ -24,7 +24,7 @@ async function run2() {
 
   console.log('try to load the model');
   await vgg16.then((value) => (model = value));
-  console.log('VGG model loaded, starting pre processing image');
+  console.log('VGG model loaded');
 
   console.log('starting VGG predict now');
   var startTime = performance.now();
@@ -46,7 +46,7 @@ async function run2() {
   console.log(top5);
   $('#prediction-list-VGG16').empty();
   top5.forEach(function (p) {
-    $('#prediction-list-VGG16').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
+    $('#prediction-list-VGG16').append(`<li>${p.className}: ${(p.probability * 100).toFixed(2)}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphVGG.removeChild(paragraphVGG.childNodes[0]);
@@ -78,7 +78,7 @@ async function run2() {
   console.log(top51);
   $('#prediction-list-Resnet50').empty();
   top51.forEach(function (p) {
-    $('#prediction-list-Resnet50').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
+    $('#prediction-list-Resnet50').append(`<li>${p.className}: ${(p.probability * 100).toFixed(2)}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphResnet50.removeChild(paragraphResnet50.childNodes[0]);
@@ -110,7 +110,7 @@ async function run2() {
   console.log(top52);
   $('#prediction-list-MobileNetV2').empty();
   top52.forEach(function (p) {
-    $('#prediction-list-MobileNetV2').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
+    $('#prediction-list-MobileNetV2').append(`<li>${p.className}: ${(p.probability * 100).toFixed(2)}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphMobileNetV2.removeChild(paragraphMobileNetV2.childNodes[0]);
@@ -142,7 +142,7 @@ async function run2() {
   console.log(top53);
   $('#prediction-list-InceptionV3').empty();
   top53.forEach(function (p) {
-    $('#prediction-list-InceptionV3').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
+    $('#prediction-list-InceptionV3').append(`<li>${p.className}: ${(p.probability * 100).toFixed(2)}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphInceptionV3.removeChild(paragraphInceptionV3.childNodes[0]);

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/loader.css" />
+    <link rel="stylesheet" href="coba.css" />
+    <script src="js/package/tf.min.js"></script>
+    <script src="js/package/jquery-3.6.0.slim.js"></script>
+    <script src="js/package/bootstrap.bundle.min.js"></script>
+    <script src="js/package/faicons.js"></script>
+    <script src="js/input.js"></script>
+    <title>Tensorflow JS</title>
+  </head>
+  <body>
+    <!-- side navbar button -->
+    <div>
+      <button class="btn btn-primary menuBtn">Menu</button>
+      <button class="btn btn-primary closeBtn">Close</button>
+      <div class="menu shadow bg-light nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Classify</button>
+        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Compare</button>
+        <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Datasets</button>
+        <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">App Flow</button>
+      </div>
+    </div>
+
+    <!-- loading screen -->
+    <div class="loader" id="loadingScreen">
+      <img src="content/loading.gif" alt="Loading Image" />
+      <div class="card shadow" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Harap tunggu</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Sedang Load Model</h6>
+          <p class="card-text">Pemanasan model sebelum digunakan</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="v-pills-tabContent">
+      <!-- navbar content 1 -->
+      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <div>
+          <!-- content -->
+          <div class="container-fluid">
+            <!-- judul -->
+            <div class="col-12 d-flex justify-content-center my-3">
+              <div class="row">
+                <h1><span class="apa shadow-sm badge bg-secondary">Fruits Classification with CNN Models</span></h1>
+              </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-4 col-12">
+                <div class="card shadow-sm mb-4">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Input Image</h6>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                      <img class="col-3 img-fluid img-thumbnail rounded" id="displayImage" src="content/react.png" alt="your image" />
+                    </div>
+                    <div class="mt-3">
+                      <select class="form-select" id="pilihanGambar">
+                        <option selected value="content/react.png">Select Local Image</option>
+                        <option value="content/datatest/apple braeburn.jpg">Apple Braeburn</option>
+                        <option value="content/datatest/banana.jpg">Banana</option>
+                        <option value="content/datatest/corn.jpg">Corn</option>
+                        <option value="content/datatest/granadilla.jpg">Granadilla</option>
+                      </select>
+                    </div>
+                    <div class="mt-3">
+                      <select class="form-select" id="pilihModel">
+                        <option value="1">Select Prediction Model</option>
+                        <option value="1">Resnet50</option>
+                        <option value="2">MobilenetV2</option>
+                        <option value="3">VGG16</option>
+                        <option value="4">InceptionV3</option>
+                      </select>
+                    </div>
+                    <div class="col-12 mt-3 input-group d-flex justify-content-center">
+                      <input type="file" onchange="readURL(this);" class="form-control" />
+                      <button class="btn btn-outline-secondary" onchange="readURL1();" type="button" id="myBtn">Predict</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-12">
+                <div class="card shadow-sm mb-4">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Prediction Result</h6>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="col-12">
+                      <div class="d-flex justify-content-center">
+                        <img class="col-3 img-fluid img-thumbnail rounded" id="img" src="content/datatest/corn.jpg" />
+                      </div>
+                      <div class="mt-3">
+                        <h2 class="ms-3">Most Probable Prediction</h2>
+                        <div class="container d-flex justify-content-between row">
+                          <div class="col-12 col-md-6 shadow-sm">
+                            <ol id="prediction-list"></ol>
+                          </div>
+                          <div class="col-12 col-md-6 text-end">
+                            <p class="text-end bg-secondary rounded text-wrap badge">Prediction Time</p>
+                            <p class="text-end bg-secondary rounded text-wrap badge" id="waktu">Prediction Time</p>
+                            <div class="position-absolute top-100 start-100 translate-middle"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- navbar content 2 -->
+      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <div>
+          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+            <div class="container-fluid">
+              <!-- judul -->
+              <div class="col-12 d-flex justify-content-center my-3">
+                <div class="row">
+                  <h1><span class="apa shadow-sm badge bg-secondary">Models Comparation</span></h1>
+                </div>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <!-- inputan card -->
+                <div class="col-lg-4 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">Input Image</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="d-flex justify-content-center">
+                        <img class="col-3 img-fluid img-thumbnail rounded" id="displayImage2" src="content/react.png" alt="your image" />
+                      </div>
+                      <div class="mt-3">
+                        <select class="form-select" id="pilihanGambar2">
+                          <option selected value="content/react.png">Select Local Image</option>
+                          <option value="content/datatest/apple braeburn.jpg">Apple Braeburn</option>
+                          <option value="content/datatest/banana.jpg">Banana</option>
+                          <option value="content/datatest/corn.jpg">Corn</option>
+                          <option value="content/datatest/granadilla.jpg">Granadilla</option>
+                        </select>
+                      </div>
+
+                      <div class="col-12 mt-3 input-group d-flex justify-content-center">
+                        <input type="file" onchange="readURL2(this);" class="form-control" />
+                        <button class="btn btn-outline-secondary" onchange="readURL2();" type="button" id="myBtn2">Predict</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- vgg result card -->
+                <div class="col-lg-4 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">VGG16 Prediction Result</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="d-flex justify-content-center">
+                          <img class="col-3 img-fluid img-thumbnail rounded" id="img2" src="content/datatest/corn.jpg" />
+                        </div>
+                        <div class="mt-3">
+                          <h2 class="ms-3">Most Probable Prediction</h2>
+                          <div class="container d-flex justify-content-between row">
+                            <div class="col-12 col-md-6 shadow-sm">
+                              <ol id="prediction-list-VGG16"></ol>
+                            </div>
+                            <div class="col-12 col-md-6 text-end">
+                              <p class="text-end bg-secondary rounded text-wrap badge">Prediction Time</p>
+                              <p class="text-end bg-secondary rounded text-wrap badge" id="waktuVGG">Prediction Time</p>
+                              <div class="position-absolute top-100 start-100 translate-middle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- result MovileNetV2 -->
+                <div class="col-lg-4 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">MobileNetV2 Prediction Result</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="mt-3">
+                          <h2 class="ms-3">Most Probable Prediction</h2>
+                          <div class="container d-flex justify-content-between row">
+                            <div class="col-12 col-md-6 shadow-sm">
+                              <ol id="prediction-list-MobileNetV2"></ol>
+                            </div>
+                            <div class="col-12 col-md-6 text-end">
+                              <p class="text-end bg-secondary rounded text-wrap badge">Prediction Time</p>
+                              <p class="text-end bg-secondary rounded text-wrap badge" id="waktuMobileNetV2">Prediction Time</p>
+                              <div class="position-absolute top-100 start-100 translate-middle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Result Resnet50 -->
+                <div class="col-lg-4 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">Resnet50 Prediction Result</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="mt-3">
+                          <h2 class="ms-3">Most Probable Prediction</h2>
+                          <div class="container d-flex justify-content-between row">
+                            <div class="col-12 col-md-6 shadow-sm">
+                              <ol id="prediction-list-Resnet50"></ol>
+                            </div>
+                            <div class="col-12 col-md-6 text-end">
+                              <p class="text-end bg-secondary rounded text-wrap badge">Prediction Time</p>
+                              <p class="text-end bg-secondary rounded text-wrap badge" id="waktuResnet50">Prediction Time</p>
+                              <div class="position-absolute top-100 start-100 translate-middle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Result Resnet50 -->
+                <div class="col-lg-4 col-12">
+                  <div class="card shadow-sm mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
+                      <h6 class="m-0 font-weight-bold text-primary">InceptionV3 Prediction Result</h6>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="mt-3">
+                          <h2 class="ms-3">Most Probable Prediction</h2>
+                          <div class="container d-flex justify-content-between row">
+                            <div class="col-12 col-md-6 shadow-sm">
+                              <ol id="prediction-list-InceptionV3"></ol>
+                            </div>
+                            <div class="col-12 col-md-6 text-end">
+                              <p class="text-end bg-secondary rounded text-wrap badge">Prediction Time</p>
+                              <p class="text-end bg-secondary rounded text-wrap badge" id="waktuInceptionV3">Prediction Time</p>
+                              <div class="position-absolute top-100 start-100 translate-middle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- navbar content 3 -->
+      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+        <div class="container" style="margin-top: 20px; margin-bottom: 20px">
+          <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-8 card">
+              <div class="mt-3 ms-2 sidebar-brand d-flex align-items-center">
+                <h1 class="fa fa-database" aria-hidden="true"></h1>
+                <h1 class="sidebar-brand-text mx-3">Data</h1>
+              </div>
+
+              <div class="row">
+                <img src="content/dataset-thumbnail.jpg" class="col-3 mx-3 mt-3 img-thumbnail picture hidden-xs" />
+              </div>
+              <a class="ms-2 mb-3" href="https://www.kaggle.com/moltean/fruits" target="_blank">Kaggle Link</a>
+              <div class="body mx-3">
+                <h1>Fruits 360</h1>
+                <h4>A dataset with 90380 images of 131 fruits and vegetables</h4>
+                <h3>Content</h3>
+                <p>
+                  The following fruits and are included: <br />
+                  Apples (different varieties: Crimson Snow, Golden, Golden-Red, Granny Smith, Pink Lady, Red, Red Delicious), Apricot, Avocado, Avocado ripe, Banana (Yellow, Red, Lady Finger), Beetroot Red, Blueberry, Cactus fruit,
+                  Cantaloupe (2 varieties), Carambula, Cauliflower, Cherry (different varieties, Rainier), Cherry Wax (Yellow, Red, Black), Chestnut, Clementine, Cocos, Corn (with husk), Cucumber (ripened), Dates, Eggplant, Fig, Ginger
+                  Root, Granadilla, Grape (Blue, Pink, White (different varieties)), Grapefruit (Pink, White), Guava, Hazelnut, Huckleberry, Kiwi, Kaki, Kohlrabi, Kumsquats, Lemon (normal, Meyer), Lime, Lychee, Mandarine, Mango (Green,
+                  Red), Mangostan, Maracuja, Melon Piel de Sapo, Mulberry, Nectarine (Regular, Flat), Nut (Forest, Pecan), Onion (Red, White), Orange, Papaya, Passion fruit, Peach (different varieties), Pepino, Pear (different varieties,
+                  Abate, Forelle, Kaiser, Monster, Red, Stone, Williams), Pepper (Red, Green, Orange, Yellow), Physalis (normal, with Husk), Pineapple (normal, Mini), Pitahaya Red, Plum (different varieties), Pomegranate, Pomelo Sweetie,
+                  Potato (Red, Sweet, White), Quince, Rambutan, Raspberry, Redcurrant, Salak, Strawberry (normal, Wedge), Tamarillo, Tangelo, Tomato (different varieties, Maroon, Cherry Red, Yellow, not ripened, Heart), Walnut, Watermelon.
+                </p>
+                <h3>Dataset properties</h3>
+                <p>The total number of images: 90483.</p>
+                <p>Training set size: 67692 images (one fruit or vegetable per image).</p>
+                <p>Test set size: 22688 images (one fruit or vegetable per image).</p>
+                <p>The number of classes: 131 (fruits and vegetables).</p>
+                <p>Image size: 100x100 pixels.</p>
+                <p>
+                  Filename format: image<em>index</em>100.jpg (e.g. 32<em>100.jpg) or r</em>image<em>index</em>100.jpg (e.g. r<em>32</em>100.jpg) or r2<em>image</em>index<em>100.jpg or r3</em>image<em>index</em>100.jpg. "r" stands for
+                  rotated fruit. "r2" means that the fruit was rotated around the 3rd axis. "100" comes from image size (100x100 pixels).
+                </p>
+                <p><strong>WARNING</strong></p>
+                <p>
+                  There is a new -major version- of the dataset under release. A test archive (named fruits-360-original-size.zip) was already loaded to Kaggle. The new version contains images at their original (captured) size.<br />
+                  The name of the image files in the new version does not contain the "_100" suffix anymore. This will help you to make distinction between this version and the old 100x100 version.<br />
+                  So, if you use the 100x100 version, please make sure that the file names have the "_100" suffix. All others MUST be ignored.
+                </p>
+                <p><strong>END OF WARNING</strong></p>
+                <p>Different varieties of the same fruit (apple for instance) are stored as belonging to different classes.</p>
+                <h3>How fruits were filmed</h3>
+                <p>Fruits and vegetables were planted in the shaft of a low-speed motor (3 rpm) and a short movie of 20 seconds was recorded.</p>
+                <p>A Logitech C920 camera was used for filming the fruits. This is one of the best webcams available.</p>
+                <p>Behind the fruits, we placed a white sheet of paper as a background.</p>
+                <p>Here is a movie showing how the fruits and vegetables are filmed: <a rel="noreferrer nofollow" href="https://youtu.be/_HFKJ144JuU">https://youtu.be/_HFKJ144JuU</a></p>
+                <h3>How fruits were extracted from background</h3>
+                <p>
+                  However, due to the variations in the lighting conditions, the background was not uniform and we wrote a dedicated algorithm that extracts the fruit from the background. This algorithm is of flood fill type: we start from
+                  each edge of the image and we mark all pixels there, then we mark all pixels found in the neighborhood of the already marked pixels for which the distance between colors is less than a prescribed value. We repeat the
+                  previous step until no more pixels can be marked.
+                </p>
+                <p>All marked pixels are considered as being background (which is then filled with white) and the rest of the pixels are considered as belonging to the object.</p>
+                <p>The maximum value for the distance between 2 neighbor pixels is a parameter of the algorithm and is set (by trial and error) for each movie.</p>
+                <p>Pictures from the test-multiple_fruits folder were taken with a Nexus 5X phone.</p>
+                <h3>Research papers</h3>
+                <p>
+                  Horea Muresan, <a rel="noreferrer nofollow" href="https://mihaioltean.github.io/">Mihai Oltean</a>,
+                  <a rel="noreferrer nofollow" href="https://www.researchgate.net/publication/321475443_Fruit_recognition_from_images_using_deep_learning">Fruit recognition from images using deep learning</a>, Acta Univ. Sapientiae,
+                  Informatica Vol. 10, Issue 1, pp. 26-42, 2018.
+                </p>
+                <p>The paper introduces the dataset and implementation of a Neural Network trained to recognize the fruits in the dataset.</p>
+                <h3>Alternate download</h3>
+                <p>This dataset is also available for download from GitHub: <a rel="noreferrer nofollow" href="https://github.com/Horea94/Fruit-Images-Dataset">Fruits-360 dataset</a></p>
+                <h3>History</h3>
+                <p>Fruits were filmed at the dates given below (YYYY.MM.DD):</p>
+                <p>2017.02.25 - Apple (golden).</p>
+                <p>2017.02.28 - Apple (red-yellow, red, golden2), Kiwi, Pear, Grapefruit, Lemon, Orange, Strawberry, Banana.</p>
+                <p>2017.03.05 - Apple (golden3, Braeburn, Granny Smith, red2).</p>
+                <p>2017.03.07 - Apple (red3).</p>
+                <p>2017.05.10 - Plum, Peach, Peach flat, Apricot, Nectarine, Pomegranate.</p>
+                <p>2017.05.27 - Avocado, Papaya, Grape, Cherrie.</p>
+                <p>2017.12.25 - Carambula, Cactus fruit, Granadilla, Kaki, Kumsquats, Passion fruit, Avocado ripe, Quince.</p>
+                <p>2017.12.28 - Clementine, Cocos, Mango, Lime, Lychee.</p>
+                <p>2017.12.31 - Apple Red Delicious, Pear Monster, Grape White.</p>
+                <p>2018.01.14 - Ananas, Grapefruit Pink, Mandarine, Pineapple, Tangelo.</p>
+                <p>2018.01.19 - Huckleberry, Raspberry.</p>
+                <p>2018.01.26 - Dates, Maracuja, Plum 2, Salak, Tamarillo.</p>
+                <p>2018.02.05 - Guava, Grape White 2, Lemon Meyer</p>
+                <p>2018.02.07 - Banana Red, Pepino, Pitahaya Red.</p>
+                <p>2018.02.08 - Pear Abate, Pear Williams.</p>
+                <p>2018.05.22 - Lemon rotated, Pomegranate rotated.</p>
+                <p>2018.05.24 - Cherry Rainier, Cherry 2, Strawberry Wedge.</p>
+                <p>2018.05.26 - Cantaloupe (2 varieties).</p>
+                <p>2018.05.31 - Melon Piel de Sapo.</p>
+                <p>2018.06.05 - Pineapple Mini, Physalis, Physalis with Husk, Rambutan.</p>
+                <p>2018.06.08 - Mulberry, Redcurrant.</p>
+                <p>2018.06.16 - Hazelnut, Walnut, Tomato, Cherry Red.</p>
+                <p>2018.06.17 - Cherry Wax (Yellow, Red, Black).</p>
+                <p>2018.08.19 - Apple Red Yellow 2, Grape Blue, Grape White 3-4, Peach 2, Plum 3, Tomato Maroon, Tomato 1-4 .</p>
+                <p>2018.12.20 - Nut Pecan, Pear Kaiser, Tomato Yellow.</p>
+                <p>2018.12.21 - Banana Lady Finger, Chesnut, Mangostan.</p>
+                <p>2018.12.22 - Pomelo Sweetie.</p>
+                <p>2019.04.21 - Apple Crimson Snow, Apple Pink Lady, Blueberry, Kohlrabi, Mango Red, Pear Red, Pepper (Red, Yellow, Green).</p>
+                <p>2019.06.18 - Beetroot Red, Corn, Ginger Root, Nectarine Flat, Nut Forest, Onion Red, Onion Red Peeled, Onion White, Potato Red, Potato Red Washed, Potato Sweet, Potato White.</p>
+                <p>2019.07.07 - Cauliflower, Eggplant, Pear Forelle, Pepper Orange, Tomato Heart.</p>
+                <p>2019.09.22 - Corn Husk, Cucumber Ripe, Fig, Pear 2, Pear Stone, Tomato not Ripened, Watermelon.</p>
+                <h2>License</h2>
+                <p>MIT License</p>
+                <p>Copyright (c) 2017-2021 <a rel="noreferrer nofollow" href="https://mihaioltean.github.io/">Mihai Oltean</a></p>
+                <p>
+                  Permission is hereby granted, free of charge, to any person obtaining a copy<br />
+                  of this software and associated documentation files (the "Software"), to deal<br />
+                  in the Software without restriction, including without limitation the rights<br />
+                  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br />
+                  copies of the Software, and to permit persons to whom the Software is<br />
+                  furnished to do so, subject to the following conditions:
+                </p>
+                <p>
+                  The above copyright notice and this permission notice shall be included in all<br />
+                  copies or substantial portions of the Software.
+                </p>
+                <p>
+                  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br />
+                  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br />
+                  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br />
+                  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br />
+                  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br />
+                  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br />
+                  SOFTWARE.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+        <div>
+          <p>Appflow</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- class label -->
+    <script src="js/overlay.js"></script>
+    <script src="js/label.js"></script>
+    <!-- img processing, load model, prediksi, dan output -->
+    <script src="js/1.classify.js"></script>
+    <script src="js/2.compare.js"></script>
+  </body>
+</html>

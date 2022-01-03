@@ -90,7 +90,7 @@ async function run() {
 
   $('#prediction-list').empty();
   top5.forEach(function (p) {
-    $('#prediction-list').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
+    $('#prediction-list').append(`<li>${p.className}: ${(p.probability * 100).toFixed(2)}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraph.removeChild(paragraph.childNodes[0]);
