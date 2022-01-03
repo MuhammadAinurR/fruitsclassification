@@ -8,24 +8,23 @@ async function run() {
   console.log('function start');
   var resiana = document.getElementById('pilihModel').value;
   console.log('try to load the model');
-  const modelresnet50 = await tf.loadLayersModel('model/resnet50/model.json');
-  const modelvgg16 = await tf.loadLayersModel('model/vgg16/model.json');
-  const modelmobilenetv2 = await tf.loadLayersModel('model/mobilenetv2/model.json');
-  const modelinceptionv3 = await tf.loadLayersModel('model/inceptionv3/model.json');
   model = null;
   if (resiana == 1) {
-    model = modelresnet50;
+    model = await tf.loadLayersModel('model/resnet50/model.json');
+    console.log('model resnet50 selected');
   }
   if (resiana == 2) {
-    model = modelmobilenetv2;
+    model = await tf.loadLayersModel('model/mobilenetv2/model.json');
+    console.log('model mobilenetv2 selected');
   }
   if (resiana == 3) {
-    model = modelvgg16;
+    model = await tf.loadLayersModel('model/vgg16/model.json');
+    console.log('model vgg16 selected');
   }
   if (resiana == 4) {
-    model = modelinceptionv3;
+    model = await tf.loadLayersModel('model/inceptionv3/model.json');
+    console.log('model inceptionv3 selectes');
   }
-  console.log('selected model is ' + resiana);
   console.log('model loaded, starting pre processing image');
   let tensor = tf.browser
     .fromPixels(img, 3)
