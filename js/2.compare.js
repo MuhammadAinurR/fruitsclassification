@@ -18,16 +18,16 @@ async function run2() {
     .reverse(-1); // RGB -> BGR
   console.log('preprocessing completed');
 
+  // model VGG
   console.log('try to load the model');
   await vgg16.then((value) => (model = value));
   console.log('VGG model loaded');
-
   console.log('starting VGG predict now');
   var startTime = performance.now();
   let predictions = await model.predict(tensor).data();
   var endTime = performance.now();
   console.log('VGG predict completed, starting make VGG 16result');
-  let top5 = Array.from(predictions)
+  let top50 = Array.from(predictions)
     .map(function (p, i) {
       // this is Array.map
       return {
@@ -39,9 +39,9 @@ async function run2() {
       return b.probability - a.probability;
     })
     .slice(0, 5);
-  console.log(top5);
+  console.log(top50);
   $('#prediction-list-VGG16').empty();
-  top5.forEach(function (p) {
+  top50.forEach(function (p) {
     $('#prediction-list-VGG16').append(`<li>${p.className}: ${(p.probability * 100).toFixed(2)}</li>`);
   });
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
