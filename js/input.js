@@ -12,13 +12,6 @@ function readURL(input) {
   }
 }
 
-$(document).ready(function () {
-  $('#pilihanGambar').change(function () {
-    $('#displayImage').attr('src', $(this).val());
-    $('#img').attr('src', $(this).val());
-  });
-});
-
 function readURL2(input) {
   console.log('------------------------------------------');
   console.log(input);
@@ -32,6 +25,13 @@ function readURL2(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+
+$(document).ready(function () {
+  $('#pilihanGambar').change(function () {
+    $('#displayImage').attr('src', $(this).val());
+    $('#img').attr('src', $(this).val());
+  });
+});
 
 $(document).ready(function () {
   $('#pilihanGambar2').change(function () {
