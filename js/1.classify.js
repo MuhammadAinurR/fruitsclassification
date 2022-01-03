@@ -4,6 +4,7 @@ var img = document.getElementById('img');
 console.log(img);
 console.log('image loaded');
 var paragraph = document.getElementById('waktu');
+
 async function run() {
   console.log('function start');
   var resiana = document.getElementById('pilihModel').value;
@@ -68,6 +69,8 @@ async function run() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraph.removeChild(paragraph.childNodes[0]);
   paragraph.appendChild(text);
+  tf.dispose(model);
+  tf.dispose(predictions);
 }
 
 run();

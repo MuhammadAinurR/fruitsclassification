@@ -7,6 +7,7 @@ var paragraphVGG = document.getElementById('waktuVGG');
 var paragraphMobileNetV2 = document.getElementById('waktuMobileNetV2');
 var paragraphResnet50 = document.getElementById('waktuResnet50');
 var paragraphInceptionV3 = document.getElementById('waktuInceptionV3');
+
 async function run2() {
   var element = document.getElementById('loadingScreen');
   element.classList.remove('hidden');
@@ -53,6 +54,8 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphVGG.removeChild(paragraphVGG.childNodes[0]);
   paragraphVGG.appendChild(text);
+  tf.dispose(model);
+  tf.dispose(predictions);
 
   // model resnet
   console.log('load Resnet50 model');
@@ -88,6 +91,8 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphResnet50.removeChild(paragraphResnet50.childNodes[0]);
   paragraphResnet50.appendChild(text);
+  tf.dispose(model);
+  tf.dispose(predictions1);
 
   // model resnet
   console.log('load MobileNetV2 Model');
@@ -123,6 +128,8 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphMobileNetV2.removeChild(paragraphMobileNetV2.childNodes[0]);
   paragraphMobileNetV2.appendChild(text);
+  tf.dispose(model);
+  tf.dispose(predictions2);
 
   // model inceptionv3
   console.log('load InceptionV3 Model');
@@ -160,6 +167,8 @@ async function run2() {
   paragraphInceptionV3.appendChild(text);
 
   element.classList.add('hidden');
+  tf.dispose(model);
+  tf.dispose(predictions3);
 }
 
 run2();
