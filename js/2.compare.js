@@ -6,6 +6,7 @@ console.log('image loaded');
 var paragraphVGG = document.getElementById('waktuVGG');
 var paragraphMobileNetV2 = document.getElementById('waktuMobileNetV2');
 var paragraphResnet50 = document.getElementById('waktuResnet50');
+var paragraphInceptionV3 = document.getElementById('waktuInceptionV3');
 async function run2() {
   var element = document.getElementById('loadingScreen');
   element.classList.remove('hidden');
@@ -122,6 +123,42 @@ async function run2() {
   var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
   paragraphMobileNetV2.removeChild(paragraphMobileNetV2.childNodes[0]);
   paragraphMobileNetV2.appendChild(text);
+
+  // model inceptionv3
+  console.log('load InceptionV3 Model');
+  const modelinceptionv3 = await tf.loadLayersModel('model/inceptionv3/model.json');
+  model = modelinceptionv3;
+  console.log('InceptionV3 model loaded');
+  // Warmup the model before using real data.S
+  const warmupResult3 = model.predict(tf.zeros([1, 100, 100, 3]));
+  warmupResult3.dataSync(); // we don't care about the result
+  warmupResult3.dispose();
+  console.log('starting InceptionV3 predict now');
+  var startTime = performance.now();
+  let predictions3 = await model.predict(tensor).data();
+  var endTime = performance.now();
+  console.log('InceptionV3 completed, starting make result');
+  let top53 = Array.from(predictions3)
+    .map(function (p, i) {
+      // this is Array.map
+      return {
+        probability: p,
+        className: TARGET_CLASSES[i], // we are selecting the value from the obj
+      };
+    })
+    .sort(function (a, b) {
+      return b.probability - a.probability;
+    })
+    .slice(0, 5);
+  console.log(top53);
+  $('#prediction-list-InceptionV3').empty();
+  top53.forEach(function (p) {
+    $('#prediction-list-InceptionV3').append(`<li>${p.className}: ${p.probability.toFixed(3) * 100}</li>`);
+  });
+  var text = document.createTextNode(((endTime - startTime) / 1000).toFixed(3) + ' detik');
+  paragraphInceptionV3.removeChild(paragraphInceptionV3.childNodes[0]);
+  paragraphInceptionV3.appendChild(text);
+
   element.classList.add('hidden');
 }
 

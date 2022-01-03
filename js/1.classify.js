@@ -11,6 +11,7 @@ async function run() {
   const modelresnet50 = await tf.loadLayersModel('model/resnet50/model.json');
   const modelvgg16 = await tf.loadLayersModel('model/vgg16/model.json');
   const modelmobilenetv2 = await tf.loadLayersModel('model/mobilenetv2/model.json');
+  const modelinceptionv3 = await tf.loadLayersModel('model/inceptionv3/model.json');
   model = null;
   if (resiana == 1) {
     model = modelresnet50;
@@ -20,6 +21,9 @@ async function run() {
   }
   if (resiana == 3) {
     model = modelvgg16;
+  }
+  if (resiana == 4) {
+    model = modelinceptionv3;
   }
   console.log('selected model is ' + resiana);
   console.log('model loaded, starting pre processing image');
