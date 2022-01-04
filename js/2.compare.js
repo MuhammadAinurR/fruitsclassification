@@ -81,7 +81,7 @@ async function run2() {
   paragraphResnet50.appendChild(text);
   tf.dispose(predictions1);
 
-  // model resnet
+  // model MobileNetV2
   console.log('load MobileNetV2 Model');
   await mobilenetv2.then((value) => (model = value));
   console.log('MobileNetV2 loaded');

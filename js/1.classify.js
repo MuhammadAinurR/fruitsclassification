@@ -68,7 +68,6 @@ async function run() {
     .expandDims()
     .toFloat()
     .reverse(-1); // RGB -> BGR
-  console.log('preprocessing completed, starting warming up');
 
   console.log('starting predict now');
   var startTime = performance.now();
